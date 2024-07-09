@@ -34,5 +34,5 @@ Contributions to the project are welcome! If you have suggestions for improvemen
 
 ## Contact
 For any inquiries or support, please connect with :
-- Email: cse220001017@iiti.ac.in
-- GitHub: [Bharat Kaurav](https://github.com/TheNetherWatcher)
+- Email: cse220001015@iiti.ac.in
+- GitHub: [Tribuvan Ayitha](https://github.com/atribuvan)
