@@ -15,7 +15,7 @@ The mess allocation website is an online platform designed to streamline the pro
 ## Installation
 To deploy the software, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/TheNetherWatcher/Mess-Website1.git`
+1. Clone the repository: `git clone https://github.com/atribuvan/iiti-mess-Website.git
 2. Install dependencies: `pip install -r requirements.txt`
 3. Set up the database and configure the environment variables as per the provided instructions
 4. Run the application: `python manage.py runserver`
