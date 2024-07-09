@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block externalCss%}
+<link rel="stylesheet" href="{% static 'css/links.css' %}" />
+<link rel="stylesheet" href="{% static 'css/rules.css' %}" />
+
+
+{% endblock %}
+{% block body %}
+<Main>
+  <h1 class="text-center">Forms</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+          <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+            <div class="col-md-9">
+              <h3 class="heading-form">Accept/Reject Long Rebate Applications</h3>
+              <h6 class="desc-form">View longrebate applications and accept/reject long rebate applications</h6>
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-outline-primary"
+                href="/accept_longrebate" target="_blank">Click Here</a>
+            </div>
+          </div>
+          <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+            <div class="col-md-9">
+              <h3 class="heading-form">Add/Edit Caterer's Info</h3>
+              <h6 class="desc-form">Add Caterers or edit their information</h6>
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-outline-primary"
+                href="/edit_caterer" target="_blank">Click Here</a>
+            </div>
+          </div>
+
+          <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+            <div class="col-md-9">
+              <h3 class="heading-form">Add/Edit Cafeteria Info</h3>
+              <h6 class="desc-form">Add Cafeteria or edit its information</h6>
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-outline-primary"
+                href="/edit_cafeteria" target="_blank">Click Here</a>
+            </div>
+          </div>
+
+          <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+            <div class="col-md-9">
+              <h3 class="heading-form">Add New Semester</h3>
+              <h6 class="desc-form">Add data for new semester</h6>
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-outline-primary"
+                href="/add_semester" target="_blank">Click Here</a>
+            </div>
+          </div>
+          
+          <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+            <div class="col-md-9">
+              <h3 class="heading-form">Add New Mess Period</h3>
+              <h6 class="desc-form">Add data for new mess period</h6>
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-outline-primary"
+                href="/add_messperiod" target="_blank">Click Here</a>
+            </div>
+          </div>
+
+          <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+            <div class="col-md-9">
+              <h3 class="heading-form">View Short Rebates</h3>
+              <h6 class="desc-form">Download short rebate data and view them</h6>
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-outline-primary"
+                href="/viewShortRebates" target="_blank">Click Here</a>
+            </div>
+          </div>
+
+          {% for l in links %}
+          <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+            <div class="col-md-9">
+              <h3 class="heading-form">{{ l.title }}</h3>
+              <h6 class="desc-form">{{ l.description }}</h6>
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-outline-primary"
+                href="{{l.link}}" target="_blank">FILL OUT</a>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+      <div class="col-md-3 d-none d-md-flex align-items-center">
+        <img src="{% static 'images/links_white-space.png' %}" class="img-fluid img-center">
+        <img src="">
+      </div>
+    </div>
+  </div>
+</Main>
+{% endblock %}

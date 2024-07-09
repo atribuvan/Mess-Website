@@ -1,0 +1,193 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block externalCss %}
+<link rel="stylesheet" href="{% static 'css/menu.css' %}" />
+<link rel="stylesheet" href="{% static 'css/cafe.css' %}" />
+<link rel="stylesheet" href="{% static 'css/rules.css' %}" />
+<style>
+  .cafeteria-card {
+    cursor: pointer;
+  }
+  .cafeteria-card:hover {
+    background-color: #f5f5f5;
+  }
+  {% comment %} .modal {
+    z-index: 1050 !important;
+  } {% endcomment %}
+</style>
+{% endblock %}
+{% block body %}
+
+<meta name="csrf-token" content="{{ csrf_token }}">
+
+<Main class="parent">
+  <h2 class="mx-5 my-4">Cafeterias</h2>
+  <div class="container">
+    <div class="row justify-content-around">
+      <!-- Add Cafeteria Button -->
+      <div class="col-md-4">
+        <div class="card my-3 cafeteria-card" id="addCafeteriaCard" data-bs-toggle="modal" data-bs-target="#addCafeteriaModal">
+          <div class="card-body text-center">
+            <h5 class="card-title">Add New Cafeteria</h5>
+          </div>
+        </div>
+      </div>
+      <!-- Display Cafeterias -->
+      {% for cafeteria in cafeterias %}
+        <div class="col-md-4">
+          <div class="card my-3 cafeteria-card" id="card-{{ cafeteria.id }}" onclick="editCafeteria({{ cafeteria.id }})">
+            {% if cafeteria.image %}
+            <img src="{{ cafeteria.image.url }}" class="card-img-top" alt="{{ cafeteria.name }}">
+            {% else %}
+            <img src="{% static 'path_to_default_image.jpg' %}" class="card-img-top" alt="{{ cafeteria.name }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ cafeteria.name }}</h5>
+              <p class="card-text">Description: {{ cafeteria.description }}</p>
+              <p class="card-text">Phone Number: {{ cafeteria.phone_number }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</Main>
+
+<!-- Modal for adding new cafeteria -->
+<div class="modal fade" id="addCafeteriaModal" tabindex="-1" aria-labelledby="addCafeteriaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCafeteriaModalLabel">Add New Cafeteria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addCafeteriaForm">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="newName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="newName" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="newDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="newDescription" name="description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="newPhoneNumber" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="newPhoneNumber" name="phone_number">
+          </div>
+          <div class="mb-3">
+            <label for="newImage" class="form-label">Image</label>
+            <input type="file" class="form-control" id="newImage" name="image">
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for editing cafeteria info -->
+<div class="modal fade" id="editCafeteriaModal" tabindex="-1" aria-labelledby="editCafeteriaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editCafeteriaModalLabel">Edit Cafeteria</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editCafeteriaForm">
+          {% csrf_token %}
+          <input type="hidden" id="editCafeteriaId" name="id">
+          <div class="mb-3">
+            <label for="editName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="editName" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="editDescription" class="form-label">Description</label>
+            <textarea class="form-control" id="editDescription" name="description"></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="editPhoneNumber" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="editPhoneNumber" name="phone_number">
+          </div>
+          <div class="mb-3">
+            <label for="editImage" class="form-label">Image</label>
+            <input type="file" class="form-control" id="editImage" name="image">
+          </div>
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(document).ready(function() {
+    $('#addCafeteriaForm').on('submit', function(event) {
+      event.preventDefault();
+      const formData = $(this).serialize();
+      
+      $.ajax({
+        url: '/ajax/add_cafeteria/',
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        data: formData,
+        success: function(response) {
+          if (response.success) {
+            alert('Cafeteria added successfully!');
+            $('#addCafeteriaModal').modal('hide');
+            location.reload();
+          }
+        }
+      });
+    });
+
+    $('#editCafeteriaForm').on('submit', function(event) {
+      event.preventDefault();
+      const formData = $(this).serialize();
+      
+      $.ajax({
+        url: '/ajax/update_cafeteria/',
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        data: formData,
+        success: function(response) {
+          if (response.success) {
+            alert('Cafeteria information updated successfully!');
+            $('#editCafeteriaModal').modal('hide');
+            location.reload();
+          }
+        }
+      });
+    });
+  });
+
+  function showAddCafeteriaForm() {
+    $('#addCafeteriaModal').modal('show');
+  }
+
+  function editCafeteria(id) {
+    $.ajax({
+      url: `/ajax/get_cafeteria/${id}/`,
+      method: 'GET',
+      success: function(response) {
+        if (response.success) {
+          const cafeteria = response.cafeteria;
+          $('#editCafeteriaId').val(id);
+          $('#editName').val(cafeteria.name);
+          $('#editDescription').val(cafeteria.description);
+          $('#editPhoneNumber').val(cafeteria.phone_number);
+          $('#editCafeteriaModal').modal('show');
+        }
+      }
+    });
+  }
+</script>
+
+{% endblock %}

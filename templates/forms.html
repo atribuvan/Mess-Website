@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block externalCss%}
+<link rel="stylesheet" href="{% static 'css/links.css' %}" />
+<link rel="stylesheet" href="{% static 'css/rules.css' %}" />
+
+
+{% endblock %}
+{% block body %}
+<Main>
+  <h1 class="text-center">Forms</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+          <div class="col-md-9">
+            <h3 class="heading-form">Allocation Form </h3>
+            <h6 class="desc-form">Fill this form for allocation</h6>
+          </div>
+          <div class="col-md-3">
+            <a class="btn btn-outline-primary"
+              href="/allocationForm" target="_blank">FILL
+              OUT</a>
+          </div>
+        </div>
+        <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+          <div class="col-md-9">
+            <h3 class="heading-form">Sort Rebate </h3>
+            <h6 class="desc-form">Fill this form for applying for shortrebate</h6>
+          </div>
+          <div class="col-md-3">
+            <a class="btn btn-outline-primary"
+              href="/shortRebate" target="_blank">FILL
+              OUT</a>
+          </div>
+        </div>
+        {% comment %} <br> {% endcomment %}
+        <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+            <div class="col-md-9">
+              <h3 class="heading-form">Long Rebate </h3>
+              <h6 class="desc-form">Fill this form for applying for long rebate</h6>
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-outline-primary"
+                href="/longRebate" target="_blank">FILL
+                OUT</a>
+            </div>
+          </div>
+          {% for l in links %}
+          <div class="row d-flex justify-content-between align-items-center panel bg-panel my-3">
+            <div class="col-md-9">
+              <h3 class="heading-form">{{ l.title }}</h3>
+              <h6 class="desc-form">{{ l.description }}</h6>
+            </div>
+            <div class="col-md-3">
+              <a class="btn btn-outline-primary"
+                href="{{l.link}}" target="_blank">FILL OUT</a>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+      <div class="col-md-3 d-none d-md-flex align-items-center">
+        <img src="{% static 'images/links_white-space.png' %}" class="img-fluid img-center">
+        <img src="">
+      </div>
+    </div>
+  </div>
+</Main>
+{% endblock %}

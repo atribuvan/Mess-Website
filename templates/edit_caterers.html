@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block externalCss %}
+<link rel="stylesheet" href="{% static 'css/menu.css' %}" />
+<link rel="stylesheet" href="{% static 'css/cafe.css' %}" />
+<link rel="stylesheet" href="{% static 'css/rules.css' %}" />
+<style>
+  .caterer-card {
+    cursor: pointer;
+  }
+  .caterer-card:hover {
+    background-color: #f5f5f5;
+  }
+</style>
+{% endblock %}
+{% block body %}
+
+<meta name="csrf-token" content="{{ csrf_token }}">
+
+<Main class="parent">
+  <h2 class="mx-5 my-4">Caterers</h2>
+  <div class="container">
+    <div class="row justify-content-around">
+      <!-- Add Caterer Button -->
+      <div class="col-md-4">
+        <div class="card my-3 caterer-card" id="addCatererCard" onclick="showAddCatererForm()">
+          <div class="card-body text-center">
+            <h5 class="card-title">Add New Caterer</h5>
+          </div>
+        </div>
+      </div>
+      <!-- Display Caterers -->
+      {% for caterer in caterers %}
+        <div class="col-md-4">
+          <div class="card my-3 caterer-card" id="card-{{ caterer.id }}" onclick="editCaterer({{ caterer.id }})">
+            {% if caterer.image %}
+            <img src="{{ caterer.image.url }}" class="card-img-top" alt="{{ caterer.name }}">
+            {% comment %} {% else %}
+            <img src="{% static 'path_to_default_image.jpg' %}" class="card-img-top" alt="{{ caterer.name }}"> {% endcomment %}
+            {% endif %}
+            <div class="card-body">
+              <h5 class="card-title">{{ caterer.name }}</h5>
+              <p class="card-text">Email: {{ caterer.email }}</p>
+              <p class="card-text">Student Limit: {{ caterer.student_limit }}</p>
+              <p class="card-text">Rebate Rate: {{ caterer.rebate_rate }}</p>
+              <p class="card-text">ID to be Allotted: {{ caterer.id_tobe_alloted }}</p>
+              <p class="card-text">Amount to be paid: {{ caterer.amount_tobe_paid }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</Main>
+
+<!-- Modal for adding new caterer -->
+<div class="modal fade" id="addCatererModal" tabindex="-1" aria-labelledby="addCatererModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addCatererModalLabel">Add New Caterer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addCatererForm">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="newName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="newName" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="newEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="newEmail" name="email">
+          </div>
+          <div class="mb-3">
+            <label for="newStudentLimit" class="form-label">Student Limit</label>
+            <input type="number" class="form-control" id="newStudentLimit" name="student_limit">
+          </div>
+          <div class="mb-3">
+            <label for="newRebateRate" class="form-label">Rebate Rate</label>
+            <input type="number" class="form-control" id="newRebateRate" name="rebate_rate">
+          </div>
+          <div class="mb-3">
+            <label for="newImage" class="form-label">Image</label>
+            <input type="file" class="form-control" id="newImage" name="image">
+          </div>
+          <div class="mb-3">
+            <label for="newIdToBeAllotted" class="form-label">ID to be Allotted</label>
+            <input type="text" class="form-control" id="newIdToBeAllotted" name="id_tobe_alloted">
+          </div>
+          <div class="mb-3">
+            <label for="newAmountToBePaid" class="form-label">Amount to be paid</label>
+            <input type="text" class="form-control" id="newAmountToBePaid" name="amount_tobe_paid">
+          </div>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for editing caterer info -->
+<div class="modal fade" id="editCatererModal" tabindex="-1" aria-labelledby="editCatererModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editCatererModalLabel">Edit Caterer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editCatererForm">
+          {% csrf_token %}
+          <input type="hidden" id="editCatererId" name="id">
+          <div class="mb-3">
+            <label for="editName" class="form-label">Name</label>
+            <input type="text" class="form-control" id="editName" name="name">
+          </div>
+          <div class="mb-3">
+            <label for="editEmail" class="form-label">Email</label>
+            <input type="email" class="form-control" id="editEmail" name="email">
+          </div>
+          <div class="mb-3">
+            <label for="editStudentLimit" class="form-label">Student Limit</label>
+            <input type="number" class="form-control" id="editStudentLimit" name="student_limit">
+          </div>
+          <div class="mb-3">
+            <label for="editRebateRate" class="form-label">Rebate Rate</label>
+            <input type="number" class="form-control" id="editRebateRate" name="rebate_rate">
+          </div>
+          <div class="mb-3">
+            <label for="editImage" class="form-label">Image</label>
+            <input type="file" class="form-control" id="editImage" name="image">
+          </div>
+          <div class="mb-3">
+            <label for="editIdToBeAllotted" class="form-label">ID to be Allotted</label>
+            <input type="text" class="form-control" id="editIdToBeAllotted" name="id_tobe_alloted">
+          </div>    
+          <div class="mb-3">
+            <label for="editAmountToBePaid" class="form-label">Amount to be paid</label>
+            <input type="text" class="form-control" id="editAmountToBePaid" name="amount_tobe_paid">
+          </div> 
+          <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#addCatererForm').on('submit', function(event) {
+      event.preventDefault();
+      const formData = $(this).serialize();
+      
+      $.ajax({
+        url: '/ajax/add_caterer/',
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        data: formData,
+        success: function(response) {
+          if (response.success) {
+            // Handle success, e.g., show a success message
+            alert('Caterer added successfully!');
+            $('#addCatererModal').modal('hide');
+            location.reload();  // Reload the page to update the caterer list
+          }
+        }
+      });
+    });
+
+    $('#editCatererForm').on('submit', function(event) {
+      event.preventDefault();
+      const formData = $(this).serialize();
+      
+      $.ajax({
+        url: '/ajax/update_caterer_info/',
+        method: 'POST',
+        headers: {
+          'X-CSRFToken': '{{ csrf_token }}'
+        },
+        data: formData,
+        success: function(response) {
+          if (response.success) {
+            // Handle success, e.g., show a success message
+            alert('Caterer information updated successfully!');
+            $('#editCatererModal').modal('hide');
+            location.reload();  // Reload the page to update the caterer list
+          }
+        }
+      });
+    });
+  });
+
+  function showAddCatererForm() {
+    $('#addCatererModal').modal('show');
+  }
+
+  function editCaterer(id) {
+    $.ajax({
+      url: `/ajax/get_caterer_info/${id}/`,
+      method: 'GET',
+      success: function(response) {
+        if (response.success) {
+          const caterer = response.caterer;
+          $('#editCatererId').val(id);
+          $('#editName').val(caterer.name);
+          $('#editEmail').val(caterer.email);
+          $('#editStudentLimit').val(caterer.student_limit);
+          $('#editRebateRate').val(caterer.rebate_rate);
+          $('#editIdToBeAllotted').val(caterer.id_tobe_alloted);
+          $('#editAmountToBePaid').val(caterer.amount_tobe_paid);
+          $('#editCatererModal').modal('show');
+        }
+      }
+    });
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block externalCss %}
+
+<link rel="stylesheet" href="{% static 'css/menu.css' %}" />
+<link rel="stylesheet" href="{% static 'css/rules.css' %}" />
+
+{% endblock %}
+{% block body %}
+<Main>
+  <div class="container">
+    <div class="row justify-content-around my-5">
+      {% for item in caterer %}
+            <div class="col-md-4">
+              <div class="card my-3">
+                <img src="/media/{{ item.image }}" class="card-img-top mx-2 my-2" alt="{{ item.name }}" style="height: 200px; object-fit: cover;">
+                <div class="card-body">
+                  <h5 class="card-title">{{ item.name }}</h5>
+                  <p class="card-text">Point of Contact: {{ item.email }}</p>
+                </div>
+              </div>
+            </div>
+      {% endfor %}
+    </div>
+  </div>
+</Main>
+
+{% endblock %}
