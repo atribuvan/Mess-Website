@@ -26,8 +26,8 @@ To deploy the software, follow these steps:
 - Python 3.11.3
 - Other dependencies specified in the requirements.txt file
 
-## Documentation
-- Here is the [Documentation](https://1drv.ms/w/s!Amd1wyLTMfRdhnaWVyEFGFfLGyJG?e=Fz5zaj) of the software(not finished yet, but working on it)
+<!-- ## Documentation
+- Here is the [Documentation](https://1drv.ms/w/s!Amd1wyLTMfRdhnaWVyEFGFfLGyJG?e=Fz5zaj) of the software(not finished yet, but working on it) -->
 
 ## Contributing
 Contributions to the project are welcome! If you have suggestions for improvements or feature requests, please open a pull request or raise an issue in the repository.
